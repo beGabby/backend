@@ -1,5 +1,5 @@
 from django.shortcuts import render, HttpResponse
-from .models import Article
+"""from .models import Article
 from .serializers import ArticleSerializer, UserSerializer
 from rest_framework import viewsets
 from rest_framework.authentication import TokenAuthentication
@@ -81,7 +81,7 @@ class ArticleViewSet(viewsets.ViewSet):
  '''       
         
         
-
+"""
         
         
 
