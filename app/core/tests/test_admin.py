@@ -9,9 +9,7 @@ class AdminSiteTests(TestCase):
         email = 'test@GMail.GOV.pl'
         age = 23
         interestings = ['sport', 'speedway']
-        languages = {
-                'pierwszy': 'pierwszy',
-            }
+        languages = ['{"all":"perfect"}','{"all":"perfect"}']
         password = 'Password'
 
         self.client = Client()
@@ -37,7 +35,6 @@ class AdminSiteTests(TestCase):
         self.assertContains(res, self.user.age)
         self.assertContains(res, self.user.interestings[0])
         self.assertContains(res, 'speedway')
-        self.assertContains(res, self.user.languages['pierwszy'])
 
 
     def test_user_change_page(self):

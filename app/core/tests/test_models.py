@@ -8,9 +8,7 @@ class ModelTests(TestCase):
         email = 'test@gov.pl'
         age = 23
         interestings = ['sport', 'speedway']
-        languages = {
-                'pierwszy': 'pierwszy',
-            }
+        languages = ['{"all":"perfect"}','{"all":"perfect"}']
         password = 'Password'
 
         user = get_user_model().objects.create_user(
@@ -30,9 +28,7 @@ class ModelTests(TestCase):
         email = 'test@GMail.GOV.pl'
         age = 23
         interestings = ['sport', 'speedway']
-        languages = {
-                'pierwszy': 'pierwszy',
-            }
+        languages = ['{"all":"perfect"}','{"all":"perfect"}']
         password = 'Password'
 
         user = get_user_model().objects.create_user(
@@ -40,7 +36,7 @@ class ModelTests(TestCase):
             age = age,
             interestings = interestings,
             languages = languages,
-            password=password,         
+            password=password         
         )
 
         self.assertEqual(user.email, email.lower())
@@ -53,11 +49,8 @@ class ModelTests(TestCase):
             email = 'GMail.GOV.pl'
             age = 23
             interestings = ['sport', 'speedway']
-            languages = {
-                    'pierwszy': 'pierwszy',
-                }
-            password = 'Password'
-
+            languages = ['{"all":"perfect"}','{"all":"perfect"}',]
+            password = "DzienDObry"
             user = get_user_model().objects.create_user(
                 email=None,
                 age = age,

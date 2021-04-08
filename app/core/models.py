@@ -19,8 +19,8 @@ class UserManager(BaseUserManager):
 
     def create_superuser(self, email, password):
         age=22
-        interestings=['sport'] 
-        languages={'all':'perfect'}
+        interestings=['sport', 'play station'] 
+        languages=['{"language":"english", "level": "beginner"}','{"language":"german", "level": "native"}']
         """create a new superuser """
         user = self.create_user(email=email, age=age, interestings=interestings, languages=languages, password=password)
         user.is_staff = True
@@ -39,7 +39,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_staff = models.BooleanField(default=False)
     date_added = models.DateTimeField(auto_now_add=True)
     age = models.IntegerField(default=1000)
-    languages = models.JSONField(encoder=None)
+    languages = ArrayField(ArrayField(models.CharField(max_length=255)))
+    #languages = models.JSONField(encoder=None)
     likes = models.IntegerField(default=0)
     #friends = ArrayField(ArrayField(models.CharField(max_length=255)))
     interestings = ArrayField(ArrayField(models.CharField(max_length=255)))
@@ -59,6 +60,13 @@ class Language(models.Model):
     def __str__(self):
         return self.name
 
+"""
+class LanguageAndPerson(models.Model):
+    #id osoby klucz obcy 
+    #id jezyka klucz obcy
+    #level
+    
+"""
 
 
 class Article(models.Model):
