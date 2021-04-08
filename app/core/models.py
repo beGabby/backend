@@ -18,7 +18,7 @@ class UserManager(BaseUserManager):
         return user
 
     def create_superuser(self, email, password):
-        age=25
+        age=22
         interestings=['sport'] 
         languages={'all':'perfect'}
         """create a new superuser """
@@ -33,7 +33,7 @@ class UserManager(BaseUserManager):
 
 class User(AbstractBaseUser, PermissionsMixin):
     """Custom user model that supports using email instead of username"""
-    email = models.EmailField(max_length=255, unique=True)
+    email = models.EmailField(max_length=253, unique=True)
     name = models.CharField(max_length=255)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
@@ -41,7 +41,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     age = models.IntegerField(default=1000)
     languages = models.JSONField(encoder=None)
     likes = models.IntegerField(default=0)
-    #friends = ArrayField(ArrayField(models.ForeignKey(UserManager, on_delete=models.CASCADE)))
+    #friends = ArrayField(ArrayField(models.CharField(max_length=255)))
     interestings = ArrayField(ArrayField(models.CharField(max_length=255)))
 
 
@@ -68,6 +68,16 @@ class Article(models.Model):
     def __str__(self):
         return self.title
 
+class NOWA(models.Model):
+    title = models.CharField(max_length=100)
+    description = models.TextField()
+
+    def __str__(self):
+        return self.title
+
+
+
 class Friends(models.Model):
       user_id_one = models.ForeignKey(User, on_delete=models.PROTECT, related_name='user_id_one')
       user_ide_two = models.ForeignKey(User, on_delete=models.PROTECT, related_name='user_ide_two')
+      
