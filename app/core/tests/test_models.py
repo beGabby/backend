@@ -46,12 +46,11 @@ class ModelTests(TestCase):
         
         with self.assertRaises(ValueError):
         
-            email = 'GMail.GOV.pl'
             age = 23
             interestings = ['sport', 'speedway']
             languages = ['{"all":"perfect"}','{"all":"perfect"}',]
             password = "DzienDObry"
-            user = get_user_model().objects.create_user(
+            get_user_model().objects.create_user(
                 email=None,
                 age = age,
                 interestings = interestings,

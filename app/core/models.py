@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, \
     PermissionsMixin
 from django.contrib.postgres.fields import ArrayField
+from django.contrib.postgres.fields.jsonb import JSONField as JSONBField
 
 
 class UserManager(BaseUserManager):
@@ -39,7 +40,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_staff = models.BooleanField(default=False)
     date_added = models.DateTimeField(auto_now_add=True)
     age = models.IntegerField(default=1000)
-    languages = ArrayField(ArrayField(models.CharField(max_length=255)))
+    languages = JSONBField(default=list,null=True,blank=True)
     #languages = models.JSONField(encoder=None)
     likes = models.IntegerField(default=0)
     #friends = ArrayField(ArrayField(models.CharField(max_length=255)))

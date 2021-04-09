@@ -23,7 +23,7 @@ class PublicUserApiTests(TestCase):
     def test_create_valid_user_succes(self):
         """test creating user with valid payload is succesful"""
         payload = {
-            "email": "tedst@londonappdev.com",
+            "email": "tedst@londonappdssxev.com",
             "name": "angel",
             "password":"warszawa",
             "age": 23,
@@ -32,7 +32,9 @@ class PublicUserApiTests(TestCase):
                 "editor",
                 "contributor"
                 ],
-            "languages": [ "{\"language\": \"english\", \"level\": \"native\"}", "{\"language\": \"english\", \"level\": \"native\"}" ]}
+            "languages": ['{"language": "english", "level": "native"}', '{"language": "english", "level": "native"}']}
+
+           
 
         res = self.client.post(CREATE_USER_URL, payload)
 
@@ -45,7 +47,7 @@ class PublicUserApiTests(TestCase):
     def test_user_exists(self):
         """test creating user that already exists fails"""
         payload = {
-            "email": "tedst@londonappdev.com",
+            "email": "tedst@londonappdssxev.com",
             "name": "angel",
             "password":"warszawa",
             "age": 23,
@@ -54,7 +56,8 @@ class PublicUserApiTests(TestCase):
                 "editor",
                 "contributor"
                 ],
-            "languages": [ "{\"language\": \"english\", \"level\": \"native\"}", "{\"language\": \"english\", \"level\": \"native\"}" ]}
+            "languages": [ '{"language": "english", "level": "native"}', '{"language": "english", "level": "native"}' ]}
+
 
         create_user(**payload)
         res = self.client.post(CREATE_USER_URL, payload)
@@ -65,16 +68,16 @@ class PublicUserApiTests(TestCase):
     def test_password_too_short(self):
         """Test that password must be more than 5 characters"""
         payload = {
-            "email": "tedst@londonappdev.com",
+            "email": "tedst@londonappdssxev.com",
             "name": "angel",
-            "password":"s",
+            "password":"123",
             "age": 23,
             "interestings": [
                 "admin",
                 "editor",
                 "contributor"
                 ],
-            "languages": [ "{\"language\": \"english\", \"level\": \"native\"}", "{\"language\": \"english\", \"level\": \"native\"}" ]}
+            "languages": [ '{"language": "english", "level": "native"}', '{"language": "english", "level": "native"}' ]}
         res = self.client.post(CREATE_USER_URL, payload)
 
         self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
