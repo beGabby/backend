@@ -7,6 +7,7 @@ from rest_framework import status
 
 
 CREATE_USER_URL = reverse('user:create')
+TOKEN_URL = reverse('user:token')
 
 
 def create_user(**params):
@@ -81,10 +82,83 @@ class PublicUserApiTests(TestCase):
         res = self.client.post(CREATE_USER_URL, payload)
 
         self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
-        user_exists = get_user_model().objects.filter(
-            email = payload['email']
-        ).exists()
+        user_exists = get_user_model().objects.filter(email = payload['email']).exists()
         self.assertFalse(user_exists)
 
 
+    def create_token_for_user(self):
+        """test that a token is created for the user"""
 
+        payload = {
+            "email": "tedst@londonappdssxev.com",
+            "name": "angel",
+            "password":"warszawa",
+            "age": 23,
+            "interestings": [
+                "admin",
+                "editor",
+                "contributor"
+                ],
+            "languages": [ '{"language": "english", "level": "native"}', '{"language": "english", "level": "native"}' ]}
+            
+        payload_login = {
+            "email": "tedst@londonappdssxev.com",
+            "password": "warszawa"
+        }
+
+        create_user(**payload)
+        res = self.client.post(TOKEN_URL, payload_login)
+
+        self.assertIn('token', res.data)
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
+
+    
+    def test_create_token_invalid_credentials(self):
+        payload = {
+            "email": "tedst@londonappdssxev.com",
+            "name": "angel",
+            "password":"warszawa",
+            "age": 23,
+            "interestings": [
+                "admin",
+                "editor",
+                "contributor"
+                ],
+            "languages": [ '{"language": "english", "level": "native"}', '{"language": "english", "level": "native"}' ]}
+        
+        payload_login = {
+            "email": "tedst@londonappdssxev.com",
+            "password": "warszbadawa"
+        }
+
+        create_user(**payload)
+
+        res = self.client.post(TOKEN_URL, payload_login)
+
+        self.assertNotIn('token', res.data)
+        self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
+
+
+    def create_token_no_user(self):
+        """test that token is not created if user doesn't exist"""
+        
+        payload_login = {
+            "email": "tedst@londonappdssxev.com",
+            "password": "warszbadawa"
+        }
+
+        res = self.client.post(TOKEN_URL, payload_login)
+
+        self.assertNotIn('token', res.data)
+        self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
+
+
+    def test_create_token_missing_fields(self):
+        """test missing fields"""
+        payload_login = {
+            "email": "tedst@londonappdssxev.com",
+            "password": ""
+        }
+        res = self.client.post(TOKEN_URL, payload_login)
+        self.assertNotIn('token', res.data)
+        self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
